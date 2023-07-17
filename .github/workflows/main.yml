@@ -25,6 +25,18 @@ jobs:
       - name: Build release package
         run: mvn -B clean install
         
+        
+      - name: Scan with Endor Labs
+        uses: endorlabs/github-action@main
+        with:
+          namespace: endorlabs-hearts-github
+          sarif_file: endor-labs.sarif
+      
+      - name: Upload SARIF to github
+        uses: github/codeql-action/upload-sarif@9885f86fab4879632b7e44514f19148225dfbdcd
+        with:
+          sarif_file: endor-labs.sarif
+        
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:

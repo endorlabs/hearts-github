@@ -1,0 +1,35 @@
+name: Build Release
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: null
+
+jobs:
+  build:
+    permissions: 
+      security-events: write
+      contents: read
+      id-token: write
+      actions: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+        
+      - name: Setup JDK with Maven
+        uses: actions/setup-java@v3
+        with:
+          distribution: microsoft
+          java-version: 17
+      
+      - name: Build release package
+        run: mvn -B clean install
+        
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: endorlabs-java-webapp-demo
+          path: |
+            target/endor-java-webapp-demo.jar
+        
+      

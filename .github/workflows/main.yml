@@ -38,10 +38,10 @@ jobs:
           
       - name: Endor Labs Scan PR to Default Branch
         if: github.event_name == 'pull_request'
-        uses: endorlabs/github-action@main
+        uses: endorlabs/github-action@v1.1.0
         with:
           namespace: "endorlabs-hearts-github"
-          pr: "true"
+          pr: true
           enable_pr_comments: true
           github_token: ${{ secrets.GITHUB_TOKEN }}"
           sarif_file: endor-labs.sarif

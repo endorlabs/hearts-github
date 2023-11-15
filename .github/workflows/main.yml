@@ -27,13 +27,23 @@ jobs:
       
       - name: Build release package
         run: mvn -B clean install
-        
-        
-      - name: Scan with Endor Labs
+
+      - name: Endor Labs Scan
+        if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+        uses: endorlabs/github-action@v1.1.0
+        with:
+          namespace: "endorlabs-hearts-github"
+          pr: "false"
+          sarif_file: endor-labs.sarif
+          
+      - name: Endor Labs Scan PR to Default Branch
+        if: github.event_name == 'pull_request'
         uses: endorlabs/github-action@main
         with:
-          namespace: endorlabs-hearts-github
+          namespace: "endorlabs-hearts-github"
+          pr: "true"
           enable_pr_comments: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}"
           sarif_file: endor-labs.sarif
       
       - name: Upload SARIF to github

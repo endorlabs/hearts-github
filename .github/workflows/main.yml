@@ -1,6 +1,6 @@
 name: Build Release
 on:
-  push:
+  pull_request:
     branches: [main]
   workflow_dispatch: null
 
@@ -30,6 +30,7 @@ jobs:
         uses: endorlabs/github-action@main
         with:
           namespace: endorlabs-hearts-github
+          enable_pr_comments: true
           sarif_file: endor-labs.sarif
       
       - name: Upload SARIF to github

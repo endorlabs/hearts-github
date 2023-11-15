@@ -43,7 +43,7 @@ jobs:
           namespace: "endorlabs-hearts-github"
           pr: true
           enable_pr_comments: true
-          github_token: ${{ secrets.GITHUB_TOKEN }}"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           sarif_file: endor-labs.sarif
       
       - name: Upload SARIF to github

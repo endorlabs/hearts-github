@@ -38,7 +38,7 @@ jobs:
           
       - name: Endor Labs Scan PR to Default Branch
         if: github.event_name == 'pull_request'
-        uses: endorlabs/github-action@v1.1.0
+        uses: endorlabs/github-action@v1.1.1
         with:
           namespace: "endorlabs-hearts-github"
           pr: true
@@ -47,12 +47,12 @@ jobs:
           sarif_file: endor-labs.sarif
       
       - name: Upload SARIF to github
-        uses: github/codeql-action/upload-sarif@9885f86fab4879632b7e44514f19148225dfbdcd
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: endor-labs.sarif
         
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: endorlabs-java-webapp-demo
           path: |

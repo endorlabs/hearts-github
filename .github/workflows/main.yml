@@ -4,7 +4,7 @@ on:
     branches: [main]
   workflow_dispatch:
   push:
-    branches: [main, "actions-1.1.2-test"]
+    branches: [main]
 jobs:
   build:
     permissions: 
@@ -30,16 +30,15 @@ jobs:
 
       - name: Endor Labs Scan
         if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
-        uses: endorlabs/github-action@v1.1.2
+        uses: endorlabs/github-action@v1
         with:
           namespace: "endorlabs-hearts-github"
           pr: "false"
-          log_verbose: "true"
           sarif_file: endor-labs.sarif
           
       - name: Endor Labs Scan PR to Default Branch
         if: github.event_name == 'pull_request'
-        uses: endorlabs/github-action@v1.1.1
+        uses: endorlabs/github-action@v1
         with:
           namespace: "endorlabs-hearts-github"
           pr: true

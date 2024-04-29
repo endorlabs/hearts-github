@@ -5,6 +5,8 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
+  schedule:
+    - cron: "23 23 * * 0"
 jobs:
   build:
     permissions: 
@@ -58,7 +60,7 @@ jobs:
         if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
         run: |
           docker build . -t endorlabs/hearts_github
-          echo "image_id=$(docker inspect --format {{.ID}} endorlabs/hearts_github)" >> "$GITHUB_OUTPUT"
+          echo "image_id=endorlabs/hearts_github@$(docker inspect --format {{.ID}} endorlabs/hearts_github)" >> "$GITHUB_OUTPUT"
 
       - name: Sign Docker Image with Endor Labs
         uses: endorlabs/github-action/sign@main

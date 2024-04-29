@@ -15,6 +15,8 @@ jobs:
       id-token: write
       actions: read
     runs-on: ubuntu-latest
+    env:
+      ENDOR_NAMESPACE: "endorlabs-hearts-github"
     steps:
       - name: Clone Repo
         uses: actions/checkout@v3
@@ -32,7 +34,7 @@ jobs:
         if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
         uses: endorlabs/github-action@v1
         with:
-          namespace: "endorlabs-hearts-github"
+          namespace: ${{ env.ENDOR_NAMESPACE }}
           pr: "false"
           sarif_file: endor-labs.sarif
           
@@ -40,16 +42,31 @@ jobs:
         if: github.event_name == 'pull_request'
         uses: endorlabs/github-action@v1
         with:
-          namespace: "endorlabs-hearts-github"
+          namespace: ${{ env.ENDOR_NAMESPACE }}
           pr: true
           enable_pr_comments: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
           sarif_file: endor-labs.sarif
-      
+
       - name: Upload SARIF to github
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: endor-labs.sarif
+
+      - name: Dockerize
+        id: dockerbuild
+        if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+        run: |
+          docker build . -t endorlabs/hearts_github
+          echo "image_id=$(docker inspect --format {{.ID}} endorlabs/hearts_github)" >> "$GITHUB_OUTPUT"
+
+      - name: Sign Docker Image with Endor Labs
+        uses: endorlabs/github-action/sign@main
+        with:
+          namespace: ${{ env.ENDOR_NAMESPACE }}
+          artifact: ${{ steps.dockerbuild.outputs.image_id }}
+      
+      # PUBLISH IMAGE HERE -- avoiding due to demo repo
         
       - name: Upload artifact
         uses: actions/upload-artifact@v4

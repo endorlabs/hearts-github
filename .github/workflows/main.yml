@@ -63,6 +63,7 @@ jobs:
           echo "image_id=endorlabs/hearts_github@$(docker inspect --format {{.ID}} endorlabs/hearts_github)" >> "$GITHUB_OUTPUT"
 
       - name: Sign Docker Image with Endor Labs
+        if: ${{ steps.dockerbuild.outcome == "success" }}
         uses: endorlabs/github-action/sign@main
         with:
           namespace: ${{ env.ENDOR_NAMESPACE }}

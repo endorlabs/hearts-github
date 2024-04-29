@@ -64,7 +64,7 @@ jobs:
         uses: endorlabs/github-action/sign@main
         with:
           namespace: ${{ env.ENDOR_NAMESPACE }}
-          artifact: ${{ steps.dockerbuild.outputs.image_id }}
+          artifact_name: ${{ steps.dockerbuild.outputs.image_id }}
       
       # PUBLISH IMAGE HERE -- avoiding due to demo repo
         

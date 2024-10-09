@@ -33,7 +33,7 @@ jobs:
         run: mvn -B clean install
 
       - name: Endor Labs Scan
-        if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+        if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' }}
         uses: endorlabs/github-action@v1
         with:
           namespace: ${{ env.ENDOR_NAMESPACE }}

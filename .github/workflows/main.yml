@@ -18,7 +18,7 @@ jobs:
       actions: read
     runs-on: ubuntu-latest
     env:
-      ENDOR_NAMESPACE: "endorlabs-hearts-github"
+      ENDOR_NAMESPACE: "yolo"
     steps:
       - name: Clone Repo
         uses: actions/checkout@v3
@@ -34,7 +34,7 @@ jobs:
 
       - name: Endor Labs Scan
         if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' }}
-        uses: endorlabs/github-action@v1
+        uses: endorlabs/github-action@main
         with:
           namespace: ${{ env.ENDOR_NAMESPACE }}
           pr: "false"
@@ -42,7 +42,7 @@ jobs:
           
       - name: Endor Labs Scan PR to Default Branch
         if: github.event_name == 'pull_request'
-        uses: endorlabs/github-action@v1
+        uses: endorlabs/github-action@main
         with:
           namespace: ${{ env.ENDOR_NAMESPACE }}
           pr: true

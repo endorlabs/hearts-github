@@ -39,6 +39,7 @@ jobs:
           namespace: ${{ env.ENDOR_NAMESPACE }}
           pr: "false"
           sarif_file: endor-labs.sarif
+          additional_args: "--output-type=summary"
           
       - name: Endor Labs Scan PR to Default Branch
         if: github.event_name == 'pull_request'
@@ -49,6 +50,7 @@ jobs:
           enable_pr_comments: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
           sarif_file: endor-labs.sarif
+          additional_args: "--output-type=summary"
 
       - name: Upload SARIF to github
         uses: github/codeql-action/upload-sarif@v3

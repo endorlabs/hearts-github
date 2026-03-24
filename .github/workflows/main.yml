@@ -21,10 +21,10 @@ jobs:
       ENDOR_NAMESPACE: "yolo"
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
         
       - name: Setup JDK with Maven
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@17f84c3641ba7b8f6deff6309fc4c864478f5d62 # v3.14.1
         with:
           distribution: microsoft
           java-version: 17
@@ -34,7 +34,7 @@ jobs:
 
       - name: Endor Labs Scan
         if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' }}
-        uses: endorlabs/github-action@main
+        uses: endorlabs/github-action@02231267f2d7d3be21f10662fdd39fba143d4bda # v1.1.9
         with:
           namespace: ${{ env.ENDOR_NAMESPACE }}
           pr: "false"
@@ -43,7 +43,7 @@ jobs:
           
       - name: Endor Labs Scan PR to Default Branch
         if: github.event_name == 'pull_request'
-        uses: endorlabs/github-action@main
+        uses: endorlabs/github-action@02231267f2d7d3be21f10662fdd39fba143d4bda # v1.1.9
         with:
           namespace: ${{ env.ENDOR_NAMESPACE }}
           pr: true
@@ -53,7 +53,7 @@ jobs:
           additional_args: "--output-type=summary"
 
       - name: Upload SARIF to github
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@45c373516f557556c15d420e3f5e0aa3d64366bc # v3.31.9
         with:
           sarif_file: endor-labs.sarif
 
@@ -66,7 +66,7 @@ jobs:
 
       - name: Sign Docker Image with Endor Labs
         if: ${{ steps.dockerbuild.outcome == 'success' }}
-        uses: endorlabs/github-action/sign@main
+        uses: endorlabs/github-action/sign@02231267f2d7d3be21f10662fdd39fba143d4bda # v1.1.9
         with:
           namespace: ${{ env.ENDOR_NAMESPACE }}
           artifact_name: ${{ steps.dockerbuild.outputs.image_id }}
@@ -74,7 +74,7 @@ jobs:
       # PUBLISH IMAGE HERE -- avoiding due to demo repo
         
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: endorlabs-java-webapp-demo
           path: |
